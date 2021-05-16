@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    font-family: "montserrat";
+}
+
+.topbar{
+    width: 100%;
+    height: 80px;
+    /* background-color: rgba(0,0,0,0.5); */
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* box-shadow: -5px 0px 10px 0px black; */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.innertopbar{
+    width: 1500px;
+    height: 100%;
+    /* background-color: black; */
+    padding: 0px 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: aqua; */
+}
+
+.logopart{
+    width: auto;
+    height: 100%;
+    /* background-color: black; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.logo{
+    height: 50%;
+    width: auto;
+    margin-right: 5px;
+}
+.logopart span{
+    font-size: 1.6em;
+    font-weight: 400;
+    font-family: "anton";
+    color: white;
+    /* letter-spacing: -1px; */
+    /* padding-right: 10px; */
+}
+
+.menupart{
+    width: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: blue; */
+}
+.signuptab,.logintab,.launch-player{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9em;
+    color: white;
+    font-weight: 600;
+    /* letter-spacing: -1px; */
+    padding-right: 5px;
+}
+.signuptab{
+    width: 100px;
+    height: 100%;
+}
+.logintab{
+    width: 100px;
+    height: 100%;
+}
+.launch-player{
+    width: 160px;
+    height: 100%;
+}
+.launch-player p, .signuptab p, .logintab p{
+    cursor: pointer;
+}
+/* .launch-player p:hover, .signuptab p:hover, .logintab p:hover{
+    color: #066bff;
+} */
+
+
+
+.login-top{
+    /* position: fixed; */
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    box-shadow: 0px 0px 5px 0px black;
+}
+.login-top.dark{
+    background-color: #030303;
+    box-shadow: 0px 0px 5px 0px rgba(255,255,255,0.2);
+}
+.login-top img{
+    height: 50%;
+    width: auto;
+}
+.login-top span{
+    color: black;
+    font-family: "anton";
+    margin-left: 5px;
+    font-size: 2.5em;
+    padding-right: 10px;
+}
+.login-top.dark span{
+    color: white;
+}
+.tm{
+    font-family: "montserrat";
+    font-size: 0.9em;
+    color: black;
+}

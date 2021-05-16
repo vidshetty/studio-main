@@ -1,0 +1,77 @@
+.google-auth-inner{
+    width: 470px;
+    height: 100%;
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-box{
+    width: 100%;
+    height: 130px;
+    border-radius: 5px;
+    background-color: rgba(31,31,41,1);
+    /* background-color: white; */
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+}
+.profile-picture{
+    width: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: black; */
+}
+.inner-picture{
+    width: 70px;
+    height: 70px;
+    /* background-color: white; */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.inner-picture img{
+    width: 100%;
+    height: auto;
+}
+
+.profile-details{
+    max-width: 300px;
+    margin-left: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    /* background-color: aqua; */
+}
+.middle{
+    width: 100%;
+    height: 50%;
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.upper,.lower{
+    font-weight: 600;
+    color: white;
+    font-family: "Montserrat";
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.upper{
+    font-size: 1.8em;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    padding-right: 10px;
+}
+.lower{
+    font-size: 1em;
+    color: rgba(255,255,255,0.5);
+}

@@ -1,0 +1,25 @@
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+.midpanel{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: white;
+    overflow-y: auto;
+}
+
+/* .innermidpanel{
+    width: 1600px;
+    height: 100%;
+    background-color: black;
+    padding: 0px 120px;
+} */

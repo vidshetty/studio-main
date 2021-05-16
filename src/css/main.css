@@ -1,0 +1,30 @@
+.main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #1ed760; */
+    /* background-color: #339dff; */
+    background-color: #2941ab;
+    /* background-color: rgb(3, 99, 37); */
+}
+
+.p-content{
+    width: 80%;
+    height: auto;
+    color: #1ed760;
+    font-size: 10em;
+    font-weight: 700;
+    letter-spacing: -5px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+/* .innermain{
+    width: 1600px;
+    height: 100%;
+    background-color: black;
+    padding: 0px 120px;
+    padding-top: 80px;
+} */
