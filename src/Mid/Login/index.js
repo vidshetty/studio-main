@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "../../css/login.css";
 import { LoginTopBar } from "../TopBar";
 import { useLocation } from "react-router-dom";
+import blackwhite from "../../assets/latest-blackwhite.svg";
 import {
     sendRequest,
     Error,
@@ -141,6 +142,10 @@ const Login = () => {
     const status = query.get("status");
     const email = query.get("email");
 
+    const goHome = e => {
+        window.location.href = "/";
+    };
+
     const goToGoogle = e => {
         window.location.href = "/login/google";
     };
@@ -163,16 +168,31 @@ const Login = () => {
                     <Error err={err} setErr={setErr} />
                     <p className="standard-p">To continue, log in.</p>
                     <div className="standard-button" onClick={goToGoogle}>CONTINUE WITH GOOGLE</div>
-                    <div className="line-drawer"></div>
+                    {/* <div className="line-drawer"></div>
                     <Middle showPass={showPass} setShowPass={setShowPass} err={err} setErr={setErr} />
                     <div className="line-drawer bottom"></div>
                     <p className="standard-p">Don't have an account?</p>
                     <div className="standard-button" onClick={() => window.location.href = "/signup"}>SIGN UP FOR STUDIO</div>
-                    <div style={{ width: "100%", height: "50px" }}></div>
+                    <div style={{ width: "100%", height: "50px" }}></div> */}
                 </div>
             </div>
         </div>
     );
+    // return (
+    //     <div className="login">
+    //         <div className="loginbody">
+    //             <div className="login-container">
+    //                 <div className="logo-container">
+    //                     <img src={blackwhite} alt="" onClick={goHome} />
+    //                     <span onClick={goHome}>Studio</span>
+    //                 </div>
+    //                 <div className="line-drawer"></div>
+    //                 <p className="title">To continue, log in.</p>
+    //                 <div className="google-standard-button" onClick={goToGoogle}>CONTINUE WITH GOOGLE</div>
+    //             </div>
+    //         </div>
+    //     </div>
+    // );
 };
 
 

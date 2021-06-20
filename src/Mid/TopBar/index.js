@@ -28,12 +28,15 @@ const TopBar = () => {
                     <div className="launch-player">
                         <p onClick={() => route("player")}>Launch Player</p>
                     </div>
-                    <div className="signuptab">
+                    {/* <div className="signuptab">
                         <p onClick={() => route("signup")}>Sign Up</p>
-                    </div>
+                    </div> */}
                     <div className="logintab">
                         <p onClick={() => route("login")}>Log In</p>
                     </div>
+                    {/* <div className="launch-button" onClick={() => route("login")}>
+                        <p>Launch Player</p>
+                    </div> */}
                 </div>
             </div>
         </div>

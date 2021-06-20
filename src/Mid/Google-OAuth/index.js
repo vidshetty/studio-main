@@ -9,12 +9,14 @@ import { sendRequest, EachError, httpCheck } from "../../common";
 
 const GoogleOAuth = () => {
     httpCheck();
-    const { userId } = useParams();
+    const { userId, uId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [user, setUser] = useState({});
     const [username, setUsername] = useState("");
     const [err, setErr] = useState("");
+    const [display, setDisplay] = useState({});
+    const [showInput, setShowInput] = useState(false);
 
     const goToLogin = e => {
         window.location.href = "/login";
@@ -33,21 +35,40 @@ const GoogleOAuth = () => {
         const res = await sendRequest({
             method: "POST",
             endpoint: "/oauth-check",
-            data: { userId }
+            data: { userId, uId }
         });
         if (res.error) {
             return window.location.href = "/login";
         }
-        if (res.status && res.status === 404) {
+        
+        console.log("res",res);
+        const { status, type, set_username, only_button } = res;
+
+        if (status === 200) {
             localStorage.setItem("username",res && res.username);
             localStorage.setItem("userId",res && res.userId);
             localStorage.setItem("picture",res && res.picture);
             localStorage.setItem("email",res && res.email);
             return window.location.href = "/";
         }
+
         setIsLoading(false);
         setUser(res.user);
-        setUsername(res.user.name);
+        if (set_username) {
+            setDisplay({ status, msg: "Your account has been granted access", period: res.period });
+            setUsername(res.user.name);
+            setShowInput(true);
+        } else if (only_button) {
+            setDisplay({ status, msg: "Your account has been granted access", period: res.period });
+            setShowInput(false);
+        } else if (type === "under_review") {
+            setDisplay({ status, msg: "Your account is awaiting approval" });
+        } else if (type === "expired") {
+            setDisplay({ status, msg: "Your account access has expired" });
+        } else if (type === "revoked") {
+            setDisplay({ status, msg: "Your account access has been revoked" });
+        }
+
     };
 
     const submit = async e => {
@@ -107,29 +128,60 @@ const GoogleOAuth = () => {
                                 </div>
                             </div>
                         </div>
-                        <div style={{ width: "100%", height: "40px" }}></div>
-                        <p>Would you want to change your user name?</p>
-                        <div style={{ width: "100%", height: "10px" }}></div>
-                        <form className="form" onSubmit={submit}>
-                            <div className="standard-input">
-                                <input type="text" value={username} className="input-box" onChange={handleUsername} />
-                                { err ? <EachError err={err} /> : null }
-                            </div>
-                            <div style={{ width: "100%", height: "30px" }}></div>   
-                            <button className="login-button" type="submit"
-                            style={{ width: "80%" }}>
-                                {
-                                    submitLoading ? 
-                                        <div className="loader">
-                                            <div className="loaderinner">
-                                                <div className="one"></div>
-                                                <div className="two"></div>
-                                                <div className="three"></div>
-                                            </div>
-                                        </div> : "CONTINUE"
-                                }
-                            </button>
-                        </form>
+                        <div style={{ width: "100%", height: "20px" }}></div>
+                        <div className="message" style={{ backgroundColor: `${ display.status === 404 ? "red" : "green" }` }}>
+                            <p>{display.msg}</p>
+                            { display.period ?
+                                display.period === "unlimited" ?
+                                null : 
+                                <p>{`You have access for ${display.period}`}</p> : null }
+                        </div>
+                        <div style={{ width: "100%", height: "30px" }}></div>
+                        {
+                            showInput ?
+                            <>
+                            <p>Would you want to change your user name?</p>
+                            <div style={{ width: "100%", height: "10px" }}></div>
+                            <form className="form" onSubmit={submit}>
+                                <div className="username-input">
+                                    <input type="text" value={username} className="input-box" onChange={handleUsername} />
+                                    { err ? <EachError err={err} /> : null }
+                                </div>
+                                <div style={{ width: "100%", height: "30px" }}></div>   
+                                <button className="login-button" type="submit"
+                                style={{ width: "100%", height: "50px" }}>
+                                    {
+                                        submitLoading ? 
+                                            <div className="loader">
+                                                <div className="loaderinner">
+                                                    <div className="one"></div>
+                                                    <div className="two"></div>
+                                                    <div className="three"></div>
+                                                </div>
+                                            </div> : "CONTINUE"
+                                    }
+                                </button>
+                            </form>
+                            </> : null
+                        }
+                        {
+                            display.status !== 404 && !showInput ? 
+                            <form className="form" onSubmit={submit}>  
+                                <button className="login-button" type="submit"
+                                style={{ width: "100%", height: "50px" }}>
+                                    {
+                                        submitLoading ? 
+                                            <div className="loader">
+                                                <div className="loaderinner">
+                                                    <div className="one"></div>
+                                                    <div className="two"></div>
+                                                    <div className="three"></div>
+                                                </div>
+                                            </div> : "CONTINUE"
+                                    }
+                                </button>
+                            </form> : null
+                        }
                     </div>
                 }
             </div>
