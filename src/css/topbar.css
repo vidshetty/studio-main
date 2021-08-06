@@ -10,21 +10,26 @@
 }
 
 .topbar{
-    width: 100%;
-    height: 80px;
-    /* background-color: rgba(0,0,0,0.5); */
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* box-shadow: -5px 0px 10px 0px black; */
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 80px;
+    background-color: #151529;
+    /* background-color: #030303; */
+    /* background-color: white; */
+    /* background-color: #2941ab; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.5); */
+    /* border-bottom: 1px solid rgba(0,0,0,0.2); */
 }
 
 .innertopbar{
-    width: 1500px;
+    width: 1800px;
+    /* width: 100%; */
     height: 100%;
     /* background-color: black; */
     padding: 0px 120px;
@@ -43,17 +48,30 @@
     align-items: center;
 }
 .logo{
-    height: 50%;
+    height: 40%;
     width: auto;
-    margin-right: 5px;
+    margin-right: 3px;
 }
 .logopart span{
     font-size: 1.6em;
     font-weight: 400;
     font-family: "anton";
     color: white;
+    /* color: #066bff; */
     /* letter-spacing: -1px; */
     /* padding-right: 10px; */
+}
+
+.github,.linkedin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: auto;
+    margin: 0px 10px;
+}
+.linkedin{
+    margin-right: 20px;
 }
 
 .menupart{
@@ -81,41 +99,45 @@
 }
 .launch-button p{
     color: white;
-    font-size: 0.9em;
+    font-size: 1em;
+    font-family: "montserrat";
+    font-weight: 500;
 }
-.signuptab,.logintab,.launch-player{
+.logintab,.launch-player{
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 0.9em;
     color: white;
     font-weight: 600;
-    /* letter-spacing: -1px; */
-    padding-right: 5px;
-}
-.signuptab{
-    width: 100px;
-    height: 100%;
 }
 .logintab{
-    width: 100px;
+    width: 70px;
+    /* width: auto; */
     height: 100%;
+    /* background-color: #066bff; */
 }
 .launch-player{
     width: 160px;
     height: 100%;
 }
-.launch-player p, .signuptab p, .logintab p{
+.launch-player img, .logintab img{
+    width: 20px;
+    height: auto;
+}
+.launch-player p, .logintab p{
     cursor: pointer;
 }
-/* .launch-player p:hover, .signuptab p:hover, .logintab p:hover{
-    color: #066bff;
-} */
+.launch-player p:hover, .logintab p:hover{
+    text-decoration: underline;
+}
 
 
 
 .login-top{
     /* position: fixed; */
+    position: absolute;
+    top: 0;
     width: 100%;
     height: 100px;
     display: flex;
@@ -146,4 +168,26 @@
     font-family: "montserrat";
     font-size: 0.9em;
     color: black;
+}
+
+
+.profilepart{
+    width: 40px;
+    height: 100%;
+    /* background-color: white; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+}
+.profilepart-inner{
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.profilepart-inner img{
+    width: 100%;
+    height: auto;
 }

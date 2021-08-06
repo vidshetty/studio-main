@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../../css/login.css";
 import { LoginTopBar } from "../TopBar";
 import { useLocation } from "react-router-dom";
@@ -151,7 +151,7 @@ const Login = () => {
     };
 
     useEffect(() => {
-        document.title = "Log In - Studio";
+        document.title = "Log In | Studio";
         if (status === "failed") {
             setErr({ ...err, open: true, msg: "OAuth login failed." }); 
         }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../../css/reset-password.css";
 import { LoginTopBar } from "../TopBar";
 import { useParams } from "react-router-dom";

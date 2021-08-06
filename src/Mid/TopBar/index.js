@@ -1,12 +1,16 @@
 import "../../css/topbar.css";
+import React from "react";
 // import logo from "../../assets/bluelogo.svg";
 // import logo from "../../assets/bluelogo-blackwhite.svg";
 import logo from "../../assets/latest-whiteblack.svg";
 import blackwhite from "../../assets/latest-blackwhite.svg";
+import bluewhite from "../../assets/latest-bluewhite.svg";
 import whiteblack from "../../assets/latest-whiteblack.svg";
+import linkedin from "../../assets/linkedin-blue.svg";
+import github from "../../assets/github-blue.svg";
 
 
-const TopBar = () => {
+export const TopBar = ({ picture, name, exists, handler }) => {
     const route = from => {
         if (from === "player") {
             window.location.href = "/login";
@@ -25,18 +29,24 @@ const TopBar = () => {
                     <span>Studio</span>
                 </div>
                 <div className="menupart">
-                    <div className="launch-player">
+                    {/* <div className="launch-player">
                         <p onClick={() => route("player")}>Launch Player</p>
-                    </div>
-                    {/* <div className="signuptab">
-                        <p onClick={() => route("signup")}>Sign Up</p>
+                        <img src={linkedin} />
                     </div> */}
                     <div className="logintab">
-                        <p onClick={() => route("login")}>Log In</p>
+                        <p onClick={handler}>Install</p>
+                        {/* <img src={github} /> */}
                     </div>
-                    {/* <div className="launch-button" onClick={() => route("login")}>
-                        <p>Launch Player</p>
-                    </div> */}
+                    {/* <img src={linkedin} className="linkedin" />
+                    <img src={github} className="github" /> */}
+                    {
+                        exists ?
+                        <div className="profilepart">
+                            <div className="profilepart-inner" title={name}>
+                                <img src={picture} alt="" />
+                            </div>
+                        </div> : null
+                    }
                 </div>
             </div>
         </div>
@@ -44,7 +54,7 @@ const TopBar = () => {
 };
 
 
-const LoginTopBar = ({ dark }) => {
+export const LoginTopBar = ({ dark }) => {
     return(
         <div className={ dark ? "login-top dark" : "login-top" }>
             <img src={ dark ? whiteblack : blackwhite } alt="" />
@@ -52,5 +62,3 @@ const LoginTopBar = ({ dark }) => {
         </div>
     );
 };
-
-export { TopBar, LoginTopBar };

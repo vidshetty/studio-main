@@ -1,25 +1,32 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { LoginTopBar } from "../TopBar";
 import "../../css/login.css";
 import "../../css/google-auth.css";
-import { sendRequest, EachError, httpCheck } from "../../common";
+import { sendRequest, EachError, httpCheck, serverCall } from "../../common";
+import Button from "../../Button";
 
 
 
 const GoogleOAuth = () => {
     httpCheck();
-    const { userId, uId } = useParams();
+    const { userId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [submitLoading, setSubmitLoading] = useState(false);
+    const [signOutLoading, setSignOutLoading] = useState(false);
     const [user, setUser] = useState({});
     const [username, setUsername] = useState("");
     const [err, setErr] = useState("");
     const [display, setDisplay] = useState({});
     const [showInput, setShowInput] = useState(false);
+    const [request, setRequest] = useState({
+        button: false,
+        loading: false,
+        requestSent: false
+    });
 
     const goToLogin = e => {
-        window.location.href = "/login";
+        window.location.href = "/";
     };
 
     const handleUsername = e => {
@@ -35,21 +42,20 @@ const GoogleOAuth = () => {
         const res = await sendRequest({
             method: "POST",
             endpoint: "/oauth-check",
-            data: { userId, uId }
+            data: { userId }
         });
         if (res.error) {
-            return window.location.href = "/login";
+            return window.location.href = "/";
         }
         
-        console.log("res",res);
-        const { status, type, set_username, only_button } = res;
+        const { status, type, set_username, only_button, request_button } = res;
 
         if (status === 200) {
-            localStorage.setItem("username",res && res.username);
-            localStorage.setItem("userId",res && res.userId);
-            localStorage.setItem("picture",res && res.picture);
-            localStorage.setItem("email",res && res.email);
-            return window.location.href = "/";
+            // localStorage.setItem("username",res && res.username);
+            // localStorage.setItem("userId",res && res.userId);
+            // localStorage.setItem("picture",res && res.picture);
+            // localStorage.setItem("email",res && res.email);
+            return window.location.href = "/player";
         }
 
         setIsLoading(false);
@@ -59,7 +65,7 @@ const GoogleOAuth = () => {
             setUsername(res.user.name);
             setShowInput(true);
         } else if (only_button) {
-            setDisplay({ status, msg: "Your account has been granted access", period: res.period });
+            setDisplay({ status, msg: "", period: res.period });
             setShowInput(false);
         } else if (type === "under_review") {
             setDisplay({ status, msg: "Your account is awaiting approval" });
@@ -67,6 +73,12 @@ const GoogleOAuth = () => {
             setDisplay({ status, msg: "Your account access has expired" });
         } else if (type === "revoked") {
             setDisplay({ status, msg: "Your account access has been revoked" });
+        }
+
+        if (request_button) {
+            setRequest(prev => {
+                return { ...prev, button: true };
+            });
         }
 
     };
@@ -83,27 +95,59 @@ const GoogleOAuth = () => {
             data: { username, userId }
         });
         if (res.error) {
-            return window.location.href = "/login";
+            return window.location.href = "/";
         }
         if (res.success) {
-            localStorage.setItem("username",res && res.username);
-            localStorage.setItem("userId",res && res.userId);
-            localStorage.setItem("picture",res && res.picture);
-            localStorage.setItem("email",res && res.email);
-            return window.location.href = "/";
+            // localStorage.setItem("username",res && res.username);
+            // localStorage.setItem("userId",res && res.userId);
+            // localStorage.setItem("picture",res && res.picture);
+            // localStorage.setItem("email",res && res.email);
+            return window.location.href = "/player";
         }
     };
 
+    const signOut = async e => {
+        e.preventDefault();
+        setSignOutLoading(true);
+        const res = await sendRequest({
+            method: "POST",
+            endpoint: `/sign-out`,
+            data: { userId }
+        });
+        if (res) {
+            window.location.href = "/";
+        }
+    };
+
+    const requestAccess = async e => {
+        setRequest(prev => {
+            return { ...prev, loading: true };
+        });
+        const res = await sendRequest({
+            method: "GET",
+            endpoint: `/request-access?userId=${user._id}`
+        });
+        const { requestSent, error } = res;
+        if (error) {
+            window.location.href = "/";
+            return null;
+        }
+        setRequest(prev => {
+            return { ...prev, loading: false, requestSent };
+        });
+    };
+
     useEffect(() => {
+        serverCall();
         call();
     }, []);
 
     return(
-        <div className="login">
+        <div className="oauth">
             <div onClick={goToLogin}>
-                <LoginTopBar dark={false} />
+                <LoginTopBar dark={true} />
             </div>
-            <div className="loginbody">
+            <div className="oauth-body">
                 {
                     isLoading ? 
                     <div className="loader" style={{ marginTop: "100px" }}>
@@ -140,7 +184,7 @@ const GoogleOAuth = () => {
                         {
                             showInput ?
                             <>
-                            <p>Would you want to change your user name?</p>
+                            <p className="question">Would you want to change your user name?</p>
                             <div style={{ width: "100%", height: "10px" }}></div>
                             <form className="form" onSubmit={submit}>
                                 <div className="username-input">
@@ -148,40 +192,54 @@ const GoogleOAuth = () => {
                                     { err ? <EachError err={err} /> : null }
                                 </div>
                                 <div style={{ width: "100%", height: "30px" }}></div>   
-                                <button className="login-button" type="submit"
-                                style={{ width: "100%", height: "50px" }}>
-                                    {
-                                        submitLoading ? 
-                                            <div className="loader">
-                                                <div className="loaderinner">
-                                                    <div className="one"></div>
-                                                    <div className="two"></div>
-                                                    <div className="three"></div>
-                                                </div>
-                                            </div> : "CONTINUE"
-                                    }
-                                </button>
                             </form>
                             </> : null
                         }
                         {
-                            display.status !== 404 && !showInput ? 
-                            <form className="form" onSubmit={submit}>  
-                                <button className="login-button" type="submit"
-                                style={{ width: "100%", height: "50px" }}>
-                                    {
-                                        submitLoading ? 
-                                            <div className="loader">
-                                                <div className="loaderinner">
-                                                    <div className="one"></div>
-                                                    <div className="two"></div>
-                                                    <div className="three"></div>
-                                                </div>
-                                            </div> : "CONTINUE"
-                                    }
-                                </button>
-                            </form> : null
+                            display.status !== 404 ? 
+                            <Button className="oauth-button" onClick={submit}>
+                                {
+                                    submitLoading ? 
+                                        <div className="loader">
+                                            <div className="loaderinner">
+                                                <div className="one"></div>
+                                                <div className="two"></div>
+                                                <div className="three"></div>
+                                            </div>
+                                        </div> : "CONTINUE"
+                                }
+                            </Button> : null
                         }
+                        {
+                            request.button ?
+                            !request.requestSent ?
+                            <Button className="oauth-signout-button" onClick={requestAccess}>
+                                {
+                                    request.loading ?
+                                    <div className="loader">
+                                        <div className="loaderinner">
+                                            <div className="one"></div>
+                                            <div className="two"></div>
+                                            <div className="three"></div>
+                                        </div>
+                                    </div> : "REQUEST ACCESS"
+                                }
+                            </Button> :
+                            <div className="oauth-req-sent">REQUEST SENT</div> : 
+                            null 
+                        }
+                        <Button className="oauth-signout-button" onClick={signOut}>
+                            {
+                                signOutLoading ? 
+                                    <div className="loader">
+                                        <div className="loaderinner">
+                                            <div className="one"></div>
+                                            <div className="two"></div>
+                                            <div className="three"></div>
+                                        </div>
+                                    </div> : "SIGN OUT"
+                            }
+                        </Button>
                     </div>
                 }
             </div>

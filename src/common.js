@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Close from "../src/assets/close.svg";
 // let baseLink = "";
@@ -27,8 +27,14 @@ export const sendRequest = async config => {
     try {
         res = await axios({
             method: config.method,
-            // url: `${baseLink}/api/auth${config.endpoint}`,
-            url: `/api/auth${config.endpoint}`,
+            url: (() => {
+                if (config.to === "api") {
+                    // return `${baseLink}/api${config.endpoint}`;
+                    return `/api${config.endpoint}`;
+                }
+                // return `${baseLink}/api/auth${config.endpoint}`;
+                return `/api/auth${config.endpoint}`;
+            })(),
             data: config.data || {}
         });
         return res.data;
@@ -39,8 +45,33 @@ export const sendRequest = async config => {
 };
 
 export const httpCheck = () => {
-    if (window.location.protocol !== "https:") {
-        window.location.protocol = "https:";
+    // if (window.location.protocol !== "https:") {
+    //     window.location.protocol = "https:";
+    // }
+};
+
+const call = async url => {
+    await axios({ method: "GET", url });
+};
+
+export const serverCall = async () => {
+    const { data } = await axios({
+        method: "GET",
+        // url: "http://localhost:5000/api/auth/server-type"
+        url: "/api/auth/server-type"
+    });
+    if (data === "MAIN") {
+        await Promise.all([
+            call("https://songserver1.herokuapp.com"),
+            call("https://songserver2.herokuapp.com"),
+            call("https://songserver3.herokuapp.com")
+        ]);
+    } else if (data === "BACKUP") {
+        await Promise.all([
+            call("https://songserver1-backup.herokuapp.com"),
+            call("https://songserver2-backup.herokuapp.com"),
+            call("https://songserver3-backup.herokuapp.com")
+        ]);
     }
 };
 
@@ -153,3 +184,8 @@ export const EachError = ({ err }) => {
         <div className="feedback" style={{ color: "red" }}>{err}</div>
     );
 };
+
+export const prefix = "/player";
+export const basename = "";
+// export const prefix = "";
+// export const basename = "/player";
