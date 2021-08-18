@@ -102,7 +102,8 @@ const GoogleOAuth = () => {
             // localStorage.setItem("userId",res && res.userId);
             // localStorage.setItem("picture",res && res.picture);
             // localStorage.setItem("email",res && res.email);
-            return window.location.href = "/player";
+            // return window.location.href = "/player";
+            return window.location.href = res.redirectUri;
         }
     };
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Close from "../src/assets/close.svg";
 // let baseLink = "";
+const PRODUCTION = true;
 
 
 
@@ -29,11 +30,9 @@ export const sendRequest = async config => {
             method: config.method,
             url: (() => {
                 if (config.to === "api") {
-                    // return `${baseLink}/api${config.endpoint}`;
-                    return `/api${config.endpoint}`;
+                    return PRODUCTION ? `/api${config.endpoint}` : `${baseLink}/api${config.endpoint}`;
                 }
-                // return `${baseLink}/api/auth${config.endpoint}`;
-                return `/api/auth${config.endpoint}`;
+                return PRODUCTION ? `/api/auth${config.endpoint}` : `${baseLink}/api/auth${config.endpoint}`;
             })(),
             data: config.data || {}
         });
@@ -57,22 +56,10 @@ const call = async url => {
 export const serverCall = async () => {
     const { data } = await axios({
         method: "GET",
-        // url: "http://localhost:5000/api/auth/server-type"
-        url: "/api/auth/server-type"
+        url: PRODUCTION ? "/api/auth/server-type" : "http://localhost:5000/api/auth/server-type"
     });
-    if (data === "MAIN") {
-        await Promise.all([
-            call("https://songserver1.herokuapp.com"),
-            call("https://songserver2.herokuapp.com"),
-            call("https://songserver3.herokuapp.com")
-        ]);
-    } else if (data === "BACKUP") {
-        await Promise.all([
-            call("https://songserver1-backup.herokuapp.com"),
-            call("https://songserver2-backup.herokuapp.com"),
-            call("https://songserver3-backup.herokuapp.com")
-        ]);
-    }
+
+    await Promise.all(data.map(each => call(each)));
 };
 
 export const wait = time => {

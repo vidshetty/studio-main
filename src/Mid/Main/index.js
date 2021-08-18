@@ -186,7 +186,7 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-            { found && Object.keys(user.recentlyPlayed).length > 0 ? <User user={user} /> : null }
+            { found && user.recentlyPlayed && Object.keys(user.recentlyPlayed).length > 0 ? <User user={user} /> : null }
             <Footer />
         </div>
     );
