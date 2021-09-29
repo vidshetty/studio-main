@@ -10,7 +10,7 @@ import linkedin from "../../assets/linkedin-blue.svg";
 import github from "../../assets/github-blue.svg";
 
 
-export const TopBar = ({ picture, name, exists, handler }) => {
+export const TopBar = ({ picture, name, exists, handler, event }) => {
     const route = from => {
         if (from === "player") {
             window.location.href = "/login";
@@ -33,10 +33,13 @@ export const TopBar = ({ picture, name, exists, handler }) => {
                         <p onClick={() => route("player")}>Launch Player</p>
                         <img src={linkedin} />
                     </div> */}
-                    <div className="logintab">
-                        <p onClick={handler}>Install</p>
-                        {/* <img src={github} /> */}
-                    </div>
+                    {
+                        event !== null ?
+                        <div className="logintab">
+                            <p onClick={handler}>Install</p>
+                            {/* <img src={github} /> */}
+                        </div> : null
+                    }
                     {/* <img src={linkedin} className="linkedin" />
                     <img src={github} className="github" /> */}
                     {

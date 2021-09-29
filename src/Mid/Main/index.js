@@ -176,7 +176,7 @@ const Main = () => {
     return(
         <div className="main-container">
             <TopBar picture={user && user.googleAccount && user.googleAccount.picture} name={user && user.username}
-            exists={ Object.keys(user).length === 0 ? false : true } handler={click} />
+            exists={ Object.keys(user).length === 0 ? false : true } handler={click} event={event} />
             <div className="mainscreen-container">
                 {/* <LoginTopBar dark={true} /> */}
                 {/* <p className="p-content">Listening is Everything.</p> */}
