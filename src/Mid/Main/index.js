@@ -114,14 +114,20 @@ const User = ({ user }) => {
     return(
         <div className="user-container">
             <div className="user-inner-container">
-                <div className="inner-top">Your recent history</div>
-                <div className="inner-display">
-                    {
-                        Object.keys(recents).map(each => {
-                            return <Row each={recents[each]} />;
-                        })
-                    }
-                </div>
+                {
+                    Object.keys(recents).length > 0 ?
+                    <>
+                    <div className="inner-top">Your recent history</div>
+                    <div className="inner-display">
+                        {
+                            Object.keys(recents).map(each => {
+                                return <Row each={recents[each]} />;
+                            })
+                        }
+                    </div>
+                    </> :
+                    <div className="dummy-inner-top"></div>
+                }
             </div>
         </div>
     );
@@ -186,7 +192,7 @@ const Main = () => {
                     </div>
                 </div>
             </div>
-            { found && user.recentlyPlayed && Object.keys(user.recentlyPlayed).length > 0 ? <User user={user} /> : null }
+            { found ? <User user={user} /> : null }
             <Footer />
         </div>
     );
