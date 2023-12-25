@@ -7,18 +7,12 @@ const PRODUCTION = true;
 
 
 export const sendRequest = async config => {
-    let baseLink = "http://localhost:5000";
+    // let baseLink = "http://localhost:5000";
     // const baseLink = "https://studioserver.herokuapp.com";
     // let baseLink = "http://192.168.29.77:5000";
     // const baseLink = "";
 
-    if (!baseLink) {
-        baseLink = await axios({
-            method: "GET",
-            url: "https://fervent-meninsky-931668.netlify.app/.netlify/functions/serverUrls"
-            // url: "https://studio-urls.netlify.app/.netlify/functions/serverUrls"
-        }).then(res => res.data.server);
-    }
+    const baseLink = "https://studiomusic.app";
 
     const baseHeaders = {
         USER: localStorage.getItem("userId") || ""

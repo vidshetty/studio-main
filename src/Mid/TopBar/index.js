@@ -10,7 +10,7 @@ import linkedin from "../../assets/linkedin-blue.svg";
 import github from "../../assets/github-blue.svg";
 
 
-export const TopBar = ({ picture, name, exists, handler, event }) => {
+export const TopBar = ({ picture, name, exists, handler, event, downloadHandler }) => {
     const route = from => {
         if (from === "player") {
             window.location.href = "/login";
@@ -33,6 +33,14 @@ export const TopBar = ({ picture, name, exists, handler, event }) => {
                         <p onClick={() => route("player")}>Launch Player</p>
                         <img src={linkedin} />
                     </div> */}
+                    <div className="download-android">
+                        <p onClick={downloadHandler}>Download for Android</p>
+                    </div>
+                    {
+                        event !== null ?
+                        <div style={{ height: "100%", width: "15px" }}>
+                        </div> : null
+                    }
                     {
                         event !== null ?
                         <div className="logintab">
@@ -42,6 +50,10 @@ export const TopBar = ({ picture, name, exists, handler, event }) => {
                     }
                     {/* <img src={linkedin} className="linkedin" />
                     <img src={github} className="github" /> */}
+                    {
+                        exists ?
+                        <div style={{ height: "100%", width: "30px" }}></div> : null
+                    }
                     {
                         exists ?
                         <div className="profilepart">

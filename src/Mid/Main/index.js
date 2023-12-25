@@ -9,6 +9,7 @@ import { TopBar, LoginTopBar } from "../TopBar";
 import Footer from "../Footer";
 // import Logo from "../../assets/latest-blackwhite.svg";
 import Logo from "../../assets/latest-whiteblack.svg";
+import { AndroidDownload } from "../AndroidDownload";
 
 
 const Center = ({ found, user }) => {
@@ -138,6 +139,7 @@ const Main = () => {
     const [user, setUser] = useState({});
     const [found, setFound] = useState("");
     const [event, setEvent] = useState(null);
+    const [openAndroidDownload, setOpenAndroidDownload] = useState(false);
 
     const call = async () => {
         const res = await sendRequest({
@@ -170,6 +172,10 @@ const Main = () => {
         }).catch(e => console.log("some error",e));
     };
 
+    const downloadClick = e => {
+        setOpenAndroidDownload(true);
+    };
+
     useEffect(() => {
         serverCall();
         call();
@@ -180,9 +186,15 @@ const Main = () => {
     }, []);
 
     return(
-        <div className="main-container">
+        <div className={ openAndroidDownload ? "main-container-no-scroll" : "main-container" }>
+            {
+                openAndroidDownload ?
+                <AndroidDownload
+                    setOpenAndroidDownload={setOpenAndroidDownload} /> : null
+            }
             <TopBar picture={user && user.googleAccount && user.googleAccount.picture} name={user && user.username}
-            exists={ Object.keys(user).length === 0 ? false : true } handler={click} event={event} />
+            exists={ Object.keys(user).length === 0 ? false : true } handler={click} event={event}
+            downloadHandler={downloadClick} />
             <div className="mainscreen-container">
                 {/* <LoginTopBar dark={true} /> */}
                 {/* <p className="p-content">Listening is Everything.</p> */}

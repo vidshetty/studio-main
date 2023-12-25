@@ -89,13 +89,16 @@
     }
 }
 
-.main-container{
+.main-container, .main-container-no-scroll{
     position: relative;
     width: 100%;
     height: 100%;
     background-color: #030303;
     /* overflow-y: scroll; */
     overflow-y: overlay;
+}
+.main-container-no-scroll{
+    overflow-y: hidden;
 }
 .main-container::-webkit-scrollbar{
     width: 5px;
